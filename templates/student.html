@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>学生管理</title>
+    <!-- 引入 Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row">
+        <div class="col-3">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action">成绩列表</a>
+                <a href="#" class="list-group-item list-group-item-action">成绩上传</a>
+                <a href="#" class="list-group-item list-group-item-action">教师管理</a>
+                <a href="#" class="list-group-item list-group-item-action active">学生管理</a>
+            </div>
+        </div>
+        <div class="col-9">
+        <!-- 搜索表单 -->
+        <form id="search-form" onsubmit="search(); return false;">
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="学号" id="student_id">
+                </div>
+                <div class="col">
+                    <input type="text" class="form-control" placeholder="姓名" id="name">
+                </div>
+                <div class="col">
+                    <select class="form-control" id="gender">
+                        <option value="">性别</option>
+                        <option value="男">男</option>
+                        <option value="女">女</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-control" id="batch">
+                        <option value="">入学批次</option>
+                        <option value="2020">2020</option>
+                        <option value="2021">2021</option>
+                        <option value="2022">2022</option>
+                        <option value="2023">2023</option>
+                        <option value="2024">2024</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <select class="form-control" id="class">
+                        <option value="">所在班级</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary">搜索</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- 表格 -->
+        <table class="table mt-3" id="results">
+            <thead>
+                <tr>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>入学批次（年）</th>
+                    <th>所在班级</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 这里将填充数据 -->
+            </tbody>
+        </table>
+
+        <!-- 分页导航 -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="prev(); return false;">上一页</a>
+                </li>
+                <li class="page-item disabled" id="page-info">
+                    <a class="page-link" href="#">页码: 1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="next(); return false;">下一页</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+    <script>
+      var currentPage = 0;
+      const ITEMS_PER_PAGE = 50;
+
+      function search() {
+        // 获取表单输入
+        const name = $("#name").val();
+        const student_id = $("#student_id").val();
+        const subject = $("#subject").val();
+        const grade = $("#grade").val();
+
+        // ajax请求
+        $.ajax({
+          url: '/ajax_student', // 替换为你的api地址
+          type: 'POST',
+          data: {
+            name: name,
+            student_id: student_id,
+            subject: subject,
+            grade: grade,
+            page: currentPage,
+            items_per_page: ITEMS_PER_PAGE
+          },
+          dataType: 'json',
+          success: function(response) {
+            // 清空表格
+            $('#results tbody').empty();
+
+            // 处理返回的数据并填充到表格
+            response.data.forEach(function(item) {
+              $('#results tbody').append(
+                `<tr>
+                  <td>${item.student_id}</td>
+                  <td>${item.name}</td>
+                  <td>${item.gender}</td>
+                  <td>${item.batch}</td>
+                  <td>${item.class}</td>
+                </tr>`
+              );
+            });
+
+            // 计算总页数
+            var totalPages = Math.ceil(response.total / ITEMS_PER_PAGE);
+
+            // 更新页码和总页数
+            $('#page-info a').text('页码: ' + (currentPage + 1) + ' / ' + totalPages);
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+            console.log(thrownError);
+          }
+        });
+      }
+
+      function prev() {
+        if (currentPage > 0) {
+          currentPage--;
+          search();
+        }
+      }
+
+      function next() {
+        currentPage++;
+        search();
+      }
+
+      // 开始时向搜索触发一次以填充表格
+      search();
+    </script>
+</body>
+</html>

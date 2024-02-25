@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>成绩列表</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row">
+        <div class="col-3">
+            <div class="list-group">
+                <a href="#" class="list-group-item list-group-item-action active">成绩列表</a>
+                <a href="#" class="list-group-item list-group-item-action">成绩上传</a>
+                <a href="#" class="list-group-item list-group-item-action">教师管理</a>
+                <a href="#" class="list-group-item list-group-item-action">学生管理</a>
+            </div>
+        </div>
+        <div class="col-9">
+          <h2>搜索条件</h2>
+          <form id="searchForm">
+              <div class="form-group">
+                  <label for="name">姓名:</label>
+                  <input type="text" class="form-control" id="name" placeholder="输入姓名">
+              </div>
+              <div class="form-group">
+                  <label for="student_id">学号:</label>
+                  <input type="text" class="form-control" id="student_id" placeholder="输入学号">
+              </div>
+              <div class="form-group">
+                  <label for="subject">科目:</label>
+                  <select class="form-control" id="subject">
+                      <option value="a">语文</option>
+                      <option value="b">数学</option>
+                      <option value="c">英语</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                  <label for="grade">考试年纪:</label>
+                  <select class="form-control" id="grade">
+                      <option value="1">一年级</option>
+                      <option value="2">二年级</option>
+                      <option value="3">三年级</option>
+                      <option value="4">四年级</option>
+                      <option value="5">五年级</option>
+                      <option value="6">六年级</option>
+                      <!-- 添加其他年级 -->
+                  </select>
+              </div>
+              <button type="button" class="btn btn-primary" onclick="search()">搜索</button>
+          </form>
+  
+          <h2 class="mt-5">结果列表</h2>
+          <table class="table" id="results">
+              <thead>
+                <tr>
+                  <th scope="col">姓名</th>
+                  <th scope="col">学号</th>
+                  <th scope="col">科目</th>
+                  <th scope="col">年纪</th>
+                  <th scope="col">成绩</th>
+                  <!-- 添加其他列 -->
+                </tr>
+              </thead>
+              <tbody>
+                <!-- 数据将通过ajax加载在这里 -->
+              </tbody>
+          </table>
+  
+          <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="prev(); return false;">上一页</a>
+                </li>
+                <li class="page-item disabled" id="page-info">
+                    <a class="page-link" href="#">页码: 1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" onclick="next(); return false;">下一页</a>
+                </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+  </div>
+
+    <script>
+      var currentPage = 0;
+      const ITEMS_PER_PAGE = 50;
+
+      function search() {
+        // 获取表单输入
+        const name = $("#name").val();
+        const student_id = $("#student_id").val();
+        const subject = $("#subject").val();
+        const grade = $("#grade").val();
+
+        // ajax请求
+        $.ajax({
+          url: '/ajax_list', // 替换为你的api地址
+          type: 'POST',
+          data: {
+            name: name,
+            student_id: student_id,
+            subject: subject,
+            grade: grade,
+            page: currentPage,
+            items_per_page: ITEMS_PER_PAGE
+          },
+          dataType: 'json',
+          success: function(response) {
+            // 清空表格
+            $('#results tbody').empty();
+
+            // 处理返回的数据并填充到表格
+            response.data.forEach(function(item) {
+              $('#results tbody').append(
+                `<tr>
+                  <td>${item.name}</td>
+                  <td>${item.student_id}</td>
+                  <td>${item.subject}</td>
+                  <td>${item.grade}</td>
+                  <td>${item.score}</td>
+                </tr>`
+              );
+            });
+
+            // 计算总页数
+            var totalPages = Math.ceil(response.total / ITEMS_PER_PAGE);
+
+            // 更新页码和总页数
+            $('#page-info a').text('页码: ' + (currentPage + 1) + ' / ' + totalPages);
+          },
+          error: function(xhr, ajaxOptions, thrownError) {
+            console.log(thrownError);
+          }
+        });
+      }
+
+      function prev() {
+        if (currentPage > 0) {
+          currentPage--;
+          search();
+        }
+      }
+
+      function next() {
+        currentPage++;
+        search();
+      }
+
+      // 开始时向搜索触发一次以填充表格
+      search();
+    </script>
+
+</body>
+</html>
