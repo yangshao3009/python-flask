@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            width: 80%;
+        }
+        input[type=text], input[type=password] {
+            margin: 10px 0;
+            padding: 12px;
+            width: 90%;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 15px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            border-radius: 3px;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        .container {
+            clear: both;
+        }
+        .footer {
+            margin-top: 15px;
+            display: flex;
+            justify-content: space-between;
+        }
+        h2{
+            text-align: center;
+        }
+    </style>
+    <title>成绩查询登录</title>
+</head>
+<body>
+    <form>
+        <h2>成绩查询手机验证码登录</h2>
+        <label for="uname"><b>手机号</b></label>
+        <input type="text" placeholder="请输入家长手机号" name="uname" required>
+
+        <label for="psw"><b>手机验证码</b></label><br>
+        <input type="text" placeholder="请输入手机验证码" name="captcha" id="captcha" style="width: 40%;margin-right: 40px;" required><button type="submit" style="width: 40%;">获取验证码</button>
+        <label for="captcha"><b>图文验证码</b></label><br>
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <input type="text" placeholder="请输入图文验证码" name="captcha" id="captcha" required style="width: 40%; margin-right: 10px;">
+            <img id="captchaImage" src="{{ url_for('static', filename='a5e63d7bebcdf3d63b926fdd5c3d0fd.png') }}" style="width: 40%; height: 40px;">
+        </div>
+        <button type="submit">登录</button>
+    </form>
+
+    <script>
+        function showPassword() {
+            var x = document.getElementById("psw");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+        function refreshCaptcha() {
+            // Assuming your server provides a "GET /captcha" endpoint
+            // that responds with an image representing a captcha.
+            document.getElementById('captchaImage').src = "{{ url_for('static', filename='a5e63d7bebcdf3d63b926fdd5c3d0fd.png') }}";
+        }
+        refreshCaptcha(); // Refresh captcha when the page loads
+    </script>
+</body>
+</html>

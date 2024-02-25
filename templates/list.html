@@ -1,19 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>成绩列表</title>
+    <title>成绩管理</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
   <div class="container mt-5">
     <div class="row">
         <div class="col-3">
             <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action active">成绩列表</a>
-                <a href="#" class="list-group-item list-group-item-action">成绩上传</a>
-                <a href="#" class="list-group-item list-group-item-action">教师管理</a>
-                <a href="#" class="list-group-item list-group-item-action">学生管理</a>
+              <a href="#" class="list-group-item list-group-item-action active">成绩管理</a>
+              <a href="#" class="list-group-item list-group-item-action">教师管理</a>
+              <a href="#" class="list-group-item list-group-item-action ">学生管理</a>
+              <a href="#" class="list-group-item list-group-item-action">日志查询</a>
             </div>
         </div>
         <div class="col-9">
@@ -49,7 +50,10 @@
               </div>
               <button type="button" class="btn btn-primary" onclick="search()">搜索</button>
           </form>
-  
+            <!-- 在这里添加上传Excel和新增按钮 -->
+          <button type="button" class="btn btn-primary mt-3" onclick="">上传Excel</button>
+          <button type="button" class="btn btn-primary mt-3 ml-3" onclick="aaaa()">新增</button>
+
           <h2 class="mt-5">结果列表</h2>
           <table class="table" id="results">
               <thead>
@@ -59,6 +63,7 @@
                   <th scope="col">科目</th>
                   <th scope="col">年纪</th>
                   <th scope="col">成绩</th>
+                  <th scope="col">操作</th> <!-- 新添加的列头 -->
                   <!-- 添加其他列 -->
                 </tr>
               </thead>
@@ -85,6 +90,10 @@
   </div>
 
     <script>
+      function aaaa(){
+        alert(111)
+        $("#addModal").show();
+      }
       var currentPage = 0;
       const ITEMS_PER_PAGE = 50;
 
@@ -121,6 +130,10 @@
                   <td>${item.subject}</td>
                   <td>${item.grade}</td>
                   <td>${item.score}</td>
+                  <td>
+                      <button class='btn btn-danger btn-sm' onclick='deleteItem("${item.id}");'>删除</button>
+                      <button class='btn btn-warning btn-sm ml-2' onclick='editItem("${item.id}");'>修改</button>
+                  </td>
                 </tr>`
               );
             });

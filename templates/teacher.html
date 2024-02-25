@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>学生管理</title>
-    <!-- 引入 Bootstrap CSS -->
+    <title>教师管理</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 </head>
@@ -12,8 +11,8 @@
         <div class="col-3">
             <div class="list-group">
                 <a href="#" class="list-group-item list-group-item-action">成绩管理</a>
-                <a href="#" class="list-group-item list-group-item-action">教师管理</a>
-                <a href="#" class="list-group-item list-group-item-action active">学生管理</a>
+                <a href="#" class="list-group-item list-group-item-action active">教师管理</a>
+                <a href="#" class="list-group-item list-group-item-action">学生管理</a>
                 <a href="#" class="list-group-item list-group-item-action">日志查询</a>
             </div>
         </div>
@@ -22,11 +21,14 @@
         <form id="search-form" onsubmit="search(); return false;">
             <div class="form-row">
                 <div class="col">
-                    <input type="text" class="form-control" placeholder="学号" id="student_id">
+                    <input type="text" class="form-control" placeholder="工号" id="teacher_id">
                 </div>
                 <div class="col">
                     <input type="text" class="form-control" placeholder="姓名" id="name">
                 </div>
+                <div class="col">
+                  <input type="text" class="form-control" placeholder="手机号" id="name">
+              </div>
                 <div class="col">
                     <select class="form-control" id="gender">
                         <option value="">性别</option>
@@ -35,46 +37,32 @@
                     </select>
                 </div>
                 <div class="col">
-                    <select class="form-control" id="batch">
-                        <option value="">入学批次</option>
-                        <option value="2020">2020</option>
-                        <option value="2021">2021</option>
-                        <option value="2022">2022</option>
-                        <option value="2023">2023</option>
-                        <option value="2024">2024</option>
-                    </select>
-                </div>
-                <div class="col">
-                    <select class="form-control" id="class">
-                        <option value="">所在班级</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                        <option value="6">6</option>
-                        <option value="7">7</option>
-                        <option value="8">8</option>
+                    <select class="form-control" id="subject">
+                        <option value="">教授科目</option>
+                        <option value="数学">数学</option>
+                        <option value="英语">英语</option>
+                        <option value="语文">语文</option>
+                        <option value="物理">物理</option>
+                        <!-- 可以根据你的情况添加更多科目 -->
                     </select>
                 </div>
                 <div class="col">
                     <button type="submit" class="btn btn-primary">搜索</button>
-
                 </div>
             </div>
         </form>
         <button type="button" class="btn btn-primary mt-3" onclick="">上传Excel</button>
-        <button type="button" class="btn btn-primary mt-3 ml-3" onclick="addStudentModal()">新增学生</button>
+        <button type="button" class="btn btn-primary mt-3 ml-3" onclick="addTeacherModal()">新增教师</button>
         <!-- 表格 -->
         <table class="table mt-3" id="results">
             <thead>
                 <tr>
-                    <th>学号</th>
+                    <th>工号</th>
                     <th>姓名</th>
                     <th>性别</th>
-                    <th>入学批次（年）</th>
-                    <th>所在班级</th>
-                    <th>家长手机号</th>
+                    <th>教授科目</th>
+                    <th>手机号</th>
+                    <th>权限</th>
                     <th>操作</th>
                 </tr>
             </thead>
@@ -105,19 +93,20 @@
       function search() {
         // 获取表单输入
         const name = $("#name").val();
-        const student_id = $("#student_id").val();
+        const teacher_id = $("#teacher_id").val();
+        const gender = $("#gender").val();
         const subject = $("#subject").val();
-        const grade = $("#grade").val();
-
+        const teacher_phone= $("#teacher_phone").val();
         // ajax请求
         $.ajax({
-          url: '/ajax_student', // 替换为你的api地址
+          url: '/ajax_teacher', // 替换为你的api地址
           type: 'POST',
           data: {
             name: name,
-            student_id: student_id,
+            teacher_id: teacher_id,
+            gender: gender,
             subject: subject,
-            grade: grade,
+            teacher_phone: teacher_phone,
             page: currentPage,
             items_per_page: ITEMS_PER_PAGE
           },
@@ -128,20 +117,35 @@
 
             // 处理返回的数据并填充到表格
             response.data.forEach(function(item) {
-              $('#results tbody').append(
-                `<tr>
-                  <td>${item.student_id}</td>
-                  <td>${item.name}</td>
-                  <td>${item.gender}</td>
-                  <td>${item.batch}</td>
-                  <td>${item.class}年级</td>
-                  <td>${item.parent_phone}</td>
-                  <td>
-                      <button class='btn btn-danger btn-sm' onclick='deleteItem("${item.id}");'>删除</button>
-                      <button class='btn btn-warning btn-sm ml-2' onclick='editItem("${item.id}");'>修改</button>
-                  </td>
-                </tr>`
-              );
+              if(item.pri=="系统管理员"){
+                $('#results tbody').append(
+                  `<tr>
+                    <td>${item.teacher_id}</td>
+                    <td>${item.name}</td>
+                    <td>${item.gender}</td>
+                    <td>${item.subject}</td>
+                    <td>${item.teacher_phone}</td>
+                    <td>${item.pri}</td>
+                    <td></td>
+                  </tr>`
+                );
+              }else{
+                $('#results tbody').append(
+                  `<tr>
+                    <td>${item.teacher_id}</td>
+                    <td>${item.name}</td>
+                    <td>${item.gender}</td>
+                    <td>${item.subject}</td>
+                    <td>${item.teacher_phone}</td>
+                    <td>${item.pri}</td>
+                    <td>
+                        <button class='btn btn-danger btn-sm' onclick='deleteItem("${item.id}");'>删除</button>
+                        <button class='btn btn-warning btn-sm ml-2' onclick='editItem("${item.id}");'>修改</button>
+                    </td>
+                  </tr>`
+                );
+              }
+
             });
 
             // 计算总页数

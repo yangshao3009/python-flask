@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background: #f2f2f2;
+            font-family: Arial, sans-serif;    
+        }
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+            margin: 10px;
+        }
+        select, button {
+            margin: 10px 0;
+            padding: 12px;
+            width: 100%;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+        button:hover {
+            opacity: 0.8;
+        }
+        h2{
+            text-align: center;
+        }
+
+        #scoreList {
+            width: 90%;
+            margin: 5%;
+        }
+
+        #scoreList td, #scoreList th {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        #scoreList tr:nth-child(even){background-color: #f2f2f2;}
+
+        #scoreList th {
+            padding-top: 12px;
+            padding-bottom: 12px;
+            text-align: left;
+            background-color: #4CAF50;
+            color: white;
+        }
+    </style>
+    <title>成绩查询</title>
+</head>
+<body>
+    <form>
+        <h2>成绩查询</h2>
+        <label for="child"><b>选择孩子姓名</b></label>
+        <select id="child" name="child" required>
+            <option value="child1">孙蕾</option>
+        </select>
+
+        <label for="exam"><b>选择考试批次</b></label>
+        <select id="exam" name="exam" required>
+           <option value="exam1">2023年期末考试</option>
+        </select>
+
+        <button type="button" onClick="fetchScores()">查询考试成绩</button>
+    </form>
+
+    <table id="scoreList">
+        <tr>
+            <th>科目</th>
+            <th>成绩</th>
+        </tr>
+        <tr>
+            <td>语文</td>
+            <td>96</td>
+        </tr>
+        <tr>
+            <td>数学</td>
+            <td>95</td>
+        </tr>
+        <tr>
+            <td>英语</td>
+            <td>98</td>
+        </tr>
+    </table>
+
+    <script>
+        function fetchScores() {
+            // This is where you would interact with your server to fetch scores
+            // you can then use the response to populate the #scoreList table.
+        }
+    </script>
+</body>
+</html>
