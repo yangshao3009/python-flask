@@ -3,56 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
     <style>
         body {
-            background: #EEEEEE;
-            font-family: Arial, sans-serif;    
+            background: #f1f1f1;
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 14px;
+            margin-bottom: 50px;
+            margin: 0px;
         }
+        .navbar {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        .navbar div.active {
+            color: #4CAF50;
+        }
+
+        .navbar div {
+            flex: 1;
+            text-align: center;
+            color: #666;
+        }
+
+        .navbar div i,
+        .navbar div.active i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
         form {
             background: white;
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
-            margin: 10px;
+            margin: 20px;
         }
         select, button {
             margin: 10px 0;
-            padding: 12px;
+            padding: 10px;
+            font-size: 14px;
             width: 100%;
+            border-radius: 3px;
             border: 1px solid #ccc;
+            font-family: 'Poppins', sans-serif;
         }
         button {
             background-color: #4CAF50;
             color: white;
             cursor: pointer;
-            border-radius: 3px;
+            border: none;
         }
         button:hover {
             opacity: 0.8;
         }
-        h2{
+        h2 {
             text-align: center;
+            color: #222;
+            font-size: 18px;
         }
 
         #scoreList {
             width: 90%;
             margin: 5%;
+            table-layout: fixed;
         }
-
         #scoreList td, #scoreList th {
             border: 1px solid #ddd;
-            padding: 8px;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            width: 33%;
+        }
+        
+        #scoreList th {
+            padding-top: 10px;
+            padding-bottom: 10px;
+            background-color: #acb5ac;
+            color: white;
         }
 
         #scoreList tr:nth-child(even){background-color: #f2f2f2;}
-
-        #scoreList th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-            background-color: #4CAF50;
-            color: white;
-        }
     </style>
     <title>成绩查询</title>
 </head>
@@ -66,12 +105,34 @@
 
         <label for="exam"><b>选择考试批次</b></label>
         <select id="exam" name="exam" required>
-           <option value="exam1">2023年期末考试</option>
+            <option value="exam1">2023年期末考试</option>
+        </select>
+
+        <label for="exam"><b>选择考试科目</b></label>
+        <select id="exam" name="exam" required>
+            <option value="exam1">全部</option>
+            <option value="exam1">语文</option>
+            <option value="exam1">数学</option>
+            <option value="exam1">英语</option>
         </select>
 
         <button type="button" onClick="fetchScores()">查询考试成绩</button>
     </form>
+<form>
 
+    <table id="scoreList">
+        <tr>
+            <th>总成绩</th>
+            <th>班级排名</th>
+            <th>年级排名</th>
+        </tr>
+        <tr>
+            <td>289</td>
+            <td>6</td>
+            <td>51</td>
+        </tr>
+    </table>
+    
     <table id="scoreList">
         <tr>
             <th>科目</th>
@@ -90,7 +151,24 @@
             <td>98</td>
         </tr>
     </table>
+</form>
 
+    <div class="navbar">
+
+        <div class="active">
+            <i class="fas fa-search"></i>
+            <span>查询</span>
+        </div>
+        <div>
+            <i class="fas fa-bullhorn"></i>
+            <span>公告</span>
+        </div>
+        <div>
+            <i class="fas fa-user-circle"></i>
+            <span>我的</span>
+        </div>
+    </div>
+    
     <script>
         function fetchScores() {
             // This is where you would interact with your server to fetch scores

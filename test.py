@@ -116,3 +116,7 @@ def web_p_login():
 @app.route('/score')
 def score():
     return render_template('score.html')
+
+@app.route('/my')
+def my():
+    return render_template('my.html')
