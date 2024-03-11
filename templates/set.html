@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            color: #333;
+            padding: 0;
+            margin: 0;
+            background-color: #f8f8f8;
+        }
+        .header {
+            background-color: #87CEFA;
+            color: white;
+            padding: 14px;
+            text-align: center;
+            font-size: 23px;
+            width: 100%;
+            position: relative;
+        }
+        .header i::before {
+    content: " ";
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+    border-width: 2px 2px 0 0;
+    border-color: white;
+    border-style: solid;
+    transform: matrix(-0.71, 0.71, 0.71, 0.71, 0, 0);
+    position: relative;
+    top: -1px;
+    margin-left: 12px;
+}
+
+.header i {
+    position: absolute;
+    left: 0;  /* Button right at the left side */
+    top: 50%;
+    transform: translateY(-50%);
+    padding-left: 10px;  /* Add some space between the button and the side of the container */
+    cursor: pointer;
+}
+
+.header span {
+    display: inline-block;
+    /* ensure the text is in the middle */
+    width: calc(100% - 40px);  /* Accommodate the arrow */
+    text-align: center;
+}
+        .info-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 14px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+            margin-top: 65px;
+        }
+        .avatar-frame {
+            width: 100px;
+            height: 100px;
+            margin-top: -60px;
+            border-radius: 50%;
+            background-color: #17a2b8;
+            overflow: hidden;
+            border: 5px solid white;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.1);
+        }
+        .avatar-frame img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        .detail-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 18px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+
+        }
+        .navbar {
+            display: flex;
+            bottom: 0;
+            width: 100%;
+            background-color: white;
+            justify-content: space-around;
+            /* position: fixed; */
+            margin-top: 20px;
+            padding: 20px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+        }
+        .navbar div {
+            flex: 1;
+            text-align: center;
+            color: #666;
+        }
+
+        .navbar div.active {
+            color: red;
+        }
+
+        .navbar div i,
+        .navbar div.active i {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+
+        .child-container {
+            margin-top: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+
+        }
+        .child-container h2 {
+            margin-bottom: 20px;
+            color: #17a2b8;
+            font-size: 22px;
+        }
+        .button-container {
+    display: flex;
+    justify-content: center;  /* Horizontal center alignment */
+    padding: 20px;
+}
+
+.add-button {
+    background-color: #ffffff;  /* Same as child-container background color */
+    border: none; 
+    color: #17a2b8;  /* Same as child-container font color */
+    padding: 20px 40px;  /* Increase padding here */
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;  /* Rounded corners */
+}
+.add-button i {
+    margin-right: 8px;  /* Adjust as needed */
+}
+    </style>
+    <title>家长查看学生信息</title>
+</head>
+<body>
+    <div class="header">
+        <i class="fas fa-arrow-left"></i>  
+        <span>学生信息</span>  <!-- wrap the text inside a span -->
+    </div>
+    <div class="info-container">
+        <div class="avatar-frame">
+            <img src="{{ url_for('static', filename='438ca89ae34f96e9b9fc50d65d4caa39.jpg') }}" alt="头像">
+        </div>
+        <div class="detail-container">
+            <b>账户名</b> 
+            <span>189****3009</span>
+        </div>
+    </div>
+    <div class="child-container">
+        <div class="detail-container">
+            <b>学生姓名</b> 
+            <span>孙蕾</span>
+        </div>
+        <div class="detail-container">
+            <b>学号</b> 
+            <span>13841</span>
+        </div>
+        <div class="detail-container">
+            <b>年纪</b> 
+            <span>五年级</span>
+        </div>
+        <div class="detail-container">
+            <b>班主任姓名</b> 
+            <span>杨邵</span>
+        </div>
+        <div class="detail-container">
+            <b>班主任电话</b> 
+            <span>130****8080</span>
+        </div>
+    </div>
+
+    <div class="child-container">
+        <div class="detail-container">
+            <b>学生姓名</b> 
+            <span>孙阳</span> <!-- change as needed -->
+        </div>
+        <div class="detail-container">
+            <b>学号</b> 
+            <span>15862</span> <!-- change as needed -->
+        </div>
+        <div class="detail-container">
+            <b>年纪</b> 
+            <span>三年级</span> <!-- change as needed -->
+        </div>
+        <div class="detail-container">
+            <b>班主任姓名</b> 
+            <span>张林</span> <!-- change as needed -->
+        </div>
+        <div class="detail-container">
+            <b>班主任电话</b> 
+            <span>130****9090</span> <!-- change as needed -->
+        </div>
+    </div>
+    <div class="button-container">
+        <button class="add-button">
+            <i class="fas fa-plus"></i> 绑定学生 
+        </button>
+    </div>
+</body>
+</html>

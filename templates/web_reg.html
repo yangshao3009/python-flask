@@ -57,11 +57,11 @@
             font-size: 18px;
         }
     </style>
-    <title>前台成绩查询手机验证码登录</title>
+    <title>前台注册页面</title>
 </head>
 <body>
     <form>
-        <h2>成绩查询手机验证码登录</h2>
+        <h2>账号注册</h2>
         <label for="uname"><b>手机号</b></label>
         <input type="text" placeholder="请输入家长手机号" name="uname" required>
 
@@ -70,12 +70,16 @@
         margin-right: 10px" required><button type="submit" style="    width: 30%;
     margin: 7px 0;
     padding: 6px 6px;">获取验证码</button>
+        <label for="uname"><b>密码</b></label>
+        <input type="text" placeholder="请输入8位及以上密码" name="uname" required>
+        <input type="text" placeholder="请再次输入密码" name="uname" required>
+
         <label for="captcha"><b>图文验证码</b></label><br>
         <div style="display: flex; align-items: center; justify-content: space-between;">
             <input type="text" placeholder="请输入图文验证码" name="captcha" id="captcha" required style="width: 60%; margin-right: 10px;">
-            <img id="captchaImage" src="{{ url_for('static', filename='c8785ec505aa366d69c1c02b44109c4.png') }}" style="width: 30%; height: 40px; margin-right: 10px">
+            <img id="captchaImage" src="{{ url_for('static', filename='22222.png') }}" style="width: 30%; height: 40px; margin-right: 10px">
         </div>
-        <button type="submit">登录</button>
+        <button type="submit">注册</button>
     </form>
 
     <script>
@@ -90,7 +94,7 @@
         function refreshCaptcha() {
             // Assuming your server provides a "GET /captcha" endpoint
             // that responds with an image representing a captcha.
-            document.getElementById('captchaImage').src = "{{ url_for('static', filename='c8785ec505aa366d69c1c02b44109c4.png') }}";
+            document.getElementById('captchaImage').src = "{{ url_for('static', filename='22222.png') }}";
         }
         refreshCaptcha(); // Refresh captcha when the page loads
     </script>

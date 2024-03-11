@@ -120,3 +120,12 @@ def score():
 @app.route('/my')
 def my():
     return render_template('my.html')
+@app.route('/set')
+def set():
+    return render_template('set.html')
+@app.route('/mys')
+def mys():
+    return render_template('mys.html')
+@app.route('/web_reg')
+def web_reg():
+    return render_template('web_reg.html')
